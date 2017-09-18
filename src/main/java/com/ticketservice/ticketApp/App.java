@@ -14,11 +14,9 @@ public class App {
 		try {
 			// Initialize Seat Info i.e create seats ,assign seat numbers and assign all
 			// seat status to Available
-
 			SeatInfo seats = new SeatInfo();
 			seats.createSeats();
 			SeatHold seatheld = new SeatHold();
-
 			System.out.println(seats.createSeats());
 
 			while (true) {
@@ -27,7 +25,6 @@ public class App {
 				 * Instantiate ticket service impl class object,this object is created for each
 				 * customer in each instance.Take inputs from customer
 				 */
-
 				TicketServiceImpl ticketService = new TicketServiceImpl();
 				System.out.println("Total number of Available seats: " + ticketService.numSeatsAvailable());
 				Scanner sc = new Scanner(System.in);
@@ -100,7 +97,6 @@ public class App {
 				}
 
 				System.out.println("Total number of Available seats: " + ticketService.numSeatsAvailable());
-
 				System.out.println("Press C-to continue booking more seats Q-to quit the application");
 
 				String userResponse = sc.next();

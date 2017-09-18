@@ -16,7 +16,6 @@ public class TicketServiceImpl implements TicketService {
 	 * Implements Interface method,calls the common method for available seats and
 	 * count how many seats are available at this point of time
 	 */
-
 	public int numSeatsAvailable() throws Exception {
 		String[] availSeats1 = availableSeats();
 		int blank = 0;
@@ -25,7 +24,6 @@ public class TicketServiceImpl implements TicketService {
 				blank++;
 			}
 		}
-
 		return availSeats1.length - blank;
 	}
 
@@ -33,7 +31,6 @@ public class TicketServiceImpl implements TicketService {
 	 * Implements Interface method,assigns values Seathold object created for that
 	 * customer .
 	 */
-
 	public SeatHold findAndHoldSeats(int numSeats, String customerEmail) throws Exception {
 
 		sh.email = customerEmail;
@@ -47,7 +44,6 @@ public class TicketServiceImpl implements TicketService {
 	 * the customer confirms it within 5 secs.
 	 * 
 	 */
-
 	public String reserveSeats(int seatHoldId, String customerEmail) throws Exception {
 		if (sh.seatholdId == seatHoldId && sh.email == customerEmail) {
 			String[] reserveSeats = sh.getSeatHeld();
@@ -64,12 +60,11 @@ public class TicketServiceImpl implements TicketService {
 		return sh.getConfirmNo();
 	}
 
-	/** 
+	/**
 	 * Returns String array containing the seatIds of available seats at any point
-	 * of time 
+	 * of time
 	 */
 	public String[] availableSeats() {
-
 		Iterator it = SeatInfo.seats.entrySet().iterator();
 		int count = 0;
 		String[] seatIds = new String[25];
@@ -82,16 +77,14 @@ public class TicketServiceImpl implements TicketService {
 			}
 		}
 		return seatIds;
-
 	}
 
-	/**  
-	 *  Holds seats for a customer that customer choose and call findAndHoldSeats
-	 *  method to load SeatHold
-	 *  object with given customer info and use the object returned.
-	 *  The seatId that is going to be held is synchronized,so that one thread
-	 *  can access same seat to hold at same time
-     */
+	/**
+	 * Holds seats for a customer that customer choose and call findAndHoldSeats
+	 * method to load SeatHold object with given customer info and use the object
+	 * returned. The seatId that is going to be held is synchronized,so that one
+	 * thread can access same seat to hold at same time
+	 */
 	public SeatHold bookSeats(String[] seatsHold, String email) {
 		String[] availSeats = availableSeats();
 		int numSeats = seatsHold.length;
@@ -103,9 +96,9 @@ public class TicketServiceImpl implements TicketService {
 						SeatInfo.seats.put(i, SeatInfo.SeatType.HELD);
 						startTime = System.currentTimeMillis();
 					}
-				}else {
-					System.out.println("Seat "+i+" is not available.Choose again");
-					
+				} else {
+					System.out.println("Seat " + i + " is not available.Choose again");
+
 					System.exit(0);
 				}
 
@@ -118,28 +111,28 @@ public class TicketServiceImpl implements TicketService {
 			}
 			sh.seatsHeld = seatsHold;
 			sh.setSeatsHeldAt(startTime);
-		}else System.out.println(numSeats+" not available");
+		} else
+			System.out.println(numSeats + " not available");
 		return sh;
 	}
 
-	/** 
+	/**
 	 * Resets the seats status to available,if the customer doesn't confirm it or
 	 * doesn't confirm it within 3 secs
-     */
+	 */
 	public void reset(String[] seatsHeld) {
 		for (String s : seatsHeld) {
 			SeatInfo.seats.put(s, SeatType.AVAILABLE);
 		}
 	}
 
-	/** 
+	/**
 	 * generates a random number
-     */
+	 */
 	public static int generateRandomInteger() {
 		SecureRandom random = new SecureRandom();
 		int num = random.nextInt(1000000);
 		String formatted = String.format("%06d", num);
 		return Integer.parseInt(formatted);
 	}
-
 }
